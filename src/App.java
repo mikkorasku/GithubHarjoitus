@@ -29,9 +29,11 @@ public class App {
                     System.out.println("Hävisit. Yksikään numeroista ei ollut seitsemän.");
                 }
                 break;  // Peli päättyy, koska ei ole toistoa
-            } else {
+            } else if (vastaus.equals("n")) {
                 System.out.println("Kiitos kun pelasit!");
                 break;  // Lopetetaan peli
+            } else {    // Jos vastaus muu kuin Y/y tai N/n, pyydä valitsemaan uudelleen.
+                System.out.println("Virheellinen valinta. Valitse Y tai N.");
             }
         }
 

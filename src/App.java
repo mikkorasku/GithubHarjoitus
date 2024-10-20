@@ -6,14 +6,24 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         Random random = new Random();
 
-        // Github-harjoitus: Slots-peli (Lucky7-variaatio)
-        // Pelin aloitus: kysytään haluaako pelaaja pelata (Y/N).
+        int raha = 5;  // Pelaajalla on aluksi 5 e
 
-        while (true) {
-            System.out.println("Haluatko pelata? (Y/N)");
+        // Github-harjoitus: Slots-peli (Lucky7-variaatio)
+        // Pelin aloitus: kysytään haluaako pelaaja pelata (Y/N). (R) ilmoittaa jäljellä olevan rahan.
+
+        while (raha > 0) {
+            System.out.println("Haluatko pelata? (Y/N) (R) ilmoittaa jäljellä olevan rahan.");
             String vastaus = scanner.nextLine().toLowerCase();
 
             if (vastaus.equals("y")) {
+                if (raha < 1) {
+                    System.out.println("Rahasi loppuivat. Peli päättyy.");
+                    break;
+                }
+
+                raha--;  // Vähennetään 1 euron pelistä
+                System.out.println("Pelit maksavat 1 e. Jäljellä oleva rahamäärä: " + raha + " e");
+
                 // Arvotaan kolme numeroa väliltä 1-10
                 int num1 = random.nextInt(10) + 1;
                 int num2 = random.nextInt(10) + 1;
@@ -22,19 +32,42 @@ public class App {
                 // Tulostetaan arvotut numerot
                 System.out.println("Arvotut numerot: " + num1 + ", " + num2 + ", " + num3);
 
-                // Tarkistetaan, voittiko pelaaja
-                if (num1 == 7 || num2 == 7 || num3 == 7) {
-                    System.out.println("Onnittelut! Voitit, koska vähintään yksi numero on seitsemän.");
+                // Laske, kuinka monta seitsemää saatiin
+                int voitto = 0;
+                if (num1 == 7) voitto++;
+                if (num2 == 7) voitto++;
+                if (num3 == 7) voitto++;
+
+                // Voitot perustuvat seitsemien määrään
+                if (voitto == 1) {
+                    System.out.println("Onnittelut! Voitit 3 e.");
+                    raha += 3;
+                } else if (voitto == 2) {
+                    System.out.println("Onnittelut! Voitit 5 e.");
+                    raha += 5;
+                } else if (voitto == 3) {
+                    System.out.println("Onnittelut! Voitit 10 e.");
+                    raha += 10;
                 } else {
                     System.out.println("Hävisit. Yksikään numeroista ei ollut seitsemän.");
                 }
-                break;  // Peli päättyy, koska ei ole toistoa
+
+                System.out.println("Jäljellä oleva rahamäärä: " + raha + " e");
+
+            } else if (vastaus.equals("r")) {
+                // Näytä jäljellä oleva raha
+                System.out.println("Sinulla on " + raha + " e jäljellä.");
             } else if (vastaus.equals("n")) {
-                System.out.println("Kiitos kun pelasit!");
-                break;  // Lopetetaan peli
-            } else {    // Jos vastaus muu kuin Y/y tai N/n, pyydä valitsemaan uudelleen.
-                System.out.println("Virheellinen valinta. Valitse Y tai N.");
+                System.out.println("Kiitos pelaamisesta!");
+                break;  // Lopeta peli
+            } else {
+                System.out.println("Virheellinen valinta. Valitse Y, N tai R.");
             }
+        }
+
+        // Jos rahat loppuivat, peli päättyy
+        if (raha <= 0) {
+            System.out.println("Rahasi loppuivat. Peli päättyy.");
         }
 
         scanner.close();
